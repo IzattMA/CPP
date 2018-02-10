@@ -1,0 +1,117 @@
+
+========== Pointers ==========
+
+int num = 3;
+
+int* pNum = &num;
+
+int *pNum;
+
+=====
+
+ #include "stdafx.h"
+    #include <iostream>
+    
+    using namespace std;
+    
+    int main()
+    {
+    
+        int num = 3;
+        int *pNum = &num;
+
+        cout << pNum << endl;
+
+        return 0;
+    }
+
+=====
+
+int *pNum;  // not recommended
+    
+cout << pNum << endl;
+
+=====
+
+
+
+========== Dereference Operator =========
+
+int num = 3;            // a simple variable holding the value 3
+int *pNum = &num;        // a pointer holding the address of num
+cout << pNum << endl;    // output the memory address of num
+cout << *pNum << endl;    // output the value 3
+
+
+=====
+
+int num = 3;
+int *pNum = &num;
+cout << pNum << endl;
+cout << *pNum << endl;
+
+*pNum = 45;
+cout << *pNum << endl;
+cout << num << endl;
+
+
+
+========== 2018_02_10_1249_EdXCPP_PointDereference.cpp ==========
+
+// 2018_02_10_1249_EdXCPP_PointDereference.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    
+	int num = 3;
+	int *pNum = &num;
+	cout << pNum << endl;		//hex
+	cout << *pNum << endl;		//3
+
+	*pNum = 45;
+	cout << *pNum << endl;		//45
+	cout << num << endl;		//45
+
+}
+
+
+==========
+
+==========  2018_02_10_1254_EdXCPP_SimplePointersDemo.cpp  ===========
+
+
+// 2018_02_10_1254_EdXCPP_SimplePointersDemo.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+
+int main()
+{
+
+	/********************
+	* simple pointers   *
+	*********************/
+
+	int num = 3;
+
+	// create a pointer variable to an int type and assign it the address of the integer straight-away
+	int *pNum = &num;
+
+	// output the value of num
+	std::cout << num << std::endl;
+
+	// output the address of num to compare with the value in pNum
+	std::cout << &num << std::endl;
+
+	// output the value stored in pNUm
+	std::cout << *pNum << std::endl;
+
+
+}
