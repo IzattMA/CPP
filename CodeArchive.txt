@@ -1,4 +1,78 @@
 
+Pointers
+int* ptr;
+int var=7; 	//#0xA
+int foo = 21; 	//0xB
+ptr = &var;	//0xA
+ptr = &foo;	//0xB
+
+Reference
+int& ref = var;	//7
+
+ptr = &var;	//0xA
+ptr = &ref;	//0xA also
+
+
+Pass by value, pass by reference, pass by pointer
+https://www.youtube.com/watch?v=UWYnUGnChhA
+
+
+#include <stdio.h>
+
+void passByVal(int val);
+void passByRef(int &val);
+void passByPtr(int *ptr);
+
+
+int main(){
+
+	int x = 5;
+	printf("x = %i\n",x);
+	
+	passByValue(x);
+	printf("x = %i\n",x);	//5	
+
+	passByRef(x);
+	printf("x = %i\n",x);	//20	
+
+	//Pass by pointer is like pass by reference, but syntax is different
+	int* xptr = &x;		//pointers hold addresses
+	
+	printf("x = %i\n",x);		//5
+	printf("*ptr = %i\n",*xptr);	//5
+	passByPtr(xptr);
+	printf("x = %i\n",x);		//30
+	printf("*ptr = %i\n",*xptr);	//30
+	
+	
+	return 0;
+
+}
+
+void passByVal(int val){
+
+	val = 10;
+	printf("val = %i\n",val);
+
+}
+
+void passByRef(int &val){
+
+	ref = 20;
+	printf("ref = %i\n",ref);
+
+}
+
+
+void passByPtr(int *ptr){
+
+	*ptr = 30;
+	printf("*ptr = %i\n",*ptr);
+
+}
+
+================================================================================
+
 ========== Pointers ==========
 
 int num = 3;
@@ -264,13 +338,307 @@ void passByRef(int &num1)
 
 
 ========================================================================================================================
-
+00F21338
 Non-object data types
 non-object data types, like int, double, bool -> stack.
 
 Stack is reclaimed when variables go out of scope
 
 
+========================================================================================================================
+
+
+// declare a pointer to int and allocate space for it
+// with the keyword new
+    int *pInt = new int; 
+
+// declare a pointer to double and allocate space for it
+// with the keyword new
+    double * pDouble = new double;
+
+// store the value 3 in the memory location
+// pointed to by pInt
+    *pInt = 3; 
+
+// store the value 5.0 in the memory location
+// pointed to by pDouble
+    *pDouble = 5.0;
+
+C++ Data Types
+--------------
+
+*pointer	4 bytes 
+int 		4 bytes [00F1FBA8, 00F1FBAC] = 4 bytes
+double		8 bytes [00F21330, 00F21338] = 8 bytes
+
+
+// declare a pointer to int and allocate space for it
+// with the keyword new
+   int *pInt = new int; 
+
+// declare a pointer to double and allocate space for it
+// with the keyword new
+   double * pDouble = new double;
+
+// store the value 3 in the memory location
+// pointed to by pInt
+   *pInt = 3; 
+
+// store the value 5.0 in the memory location
+// pointed to by pDouble
+   *pDouble = 5.0;
+
+   delete pInt;
+   delte pDouble;
+
+
+
+=====================================================================
+class Person{
+
+private:
+
+std::string firstname;
+std::string lastname;
+
+int age;
+
+
+public:
+
+Person();
+
+Person(std::string fName, std::string lName);
+
+Person(std::string fName, std::string lName, int age);
+
+~Person();
+
+void SetFirstName(std::string fName);
+std::string GetFirstName();
+
+void SetLastName(std::string lname);
+std::string GetLastName();
+
+void SetAge(int age);
+int GetAge();
+
+void SayHello();
+
+};
+===================================================
+#include "stdafx.h"
+#include "Person.h"
+#include <iostream>
+
+Person::Person(){}
+
+Person::Person(std::string fName, std::string lName){
+	firstName = fName;
+	lastName = lName;
+}
+
+Person::Person(std::string fName, std::string lName, int age){
+	firstName = fName;
+	lastName = lName;
+
+	age = age;
+}
+
+Person::~Person(){
+
+	std::cout << "Person destructor called " << std::endl;	
+
+}
+
+
+void Person::SetFirstName(std::string fName){
+	this->firstName = fName;	
+
+}
+
+std::string Person::GetFirstName(){
+
+	return this->firstName;
+}
+
+
+void Person::SetLastName(std::string lName){
+
+	this->lastName = lName;
+	
+}
+
+void Person::SetAge(int age){
+
+	this->age = age;
+
+}
+=====================================================================
+#include "stdafx.h"
+#include "Person.h"
+#include <iostream>
+#inclde <string>
+
+
+int main(){
+
+	Person *pOne = new Person("Tom","Thumb",25);
+
+	std::cout << "First name of pOne = " << pOne->GetFirstName() << std::endl;
+
+	std::cout << "Memory address of pOne = "  << &pOne << std::endl;
+
+	delete pOne;
+
+	return 0;
+}
+===================================================
+
+&refVariable = variable
+You create an alias for a variable by using a reference type. A reference type is declared and assigned by using &refVariable = variable
+
+
+========================================================================================================================
+Lab 1
+
+// https://courses.edx.org/courses/course-v1:Microsoft+DEV210.2x+3T2016/info
+
+
+
+/*
+1. Create a new C++ console application called PointersLab
+
+
+
+2. In your main() function, create two variables. One variable needs to be an intrinsic integer variable named num1 and 
+    
+the second needs to be a pointer to an int pNum.
+
+
+
+3. Assign the value 3 to num1.
+
+
+
+4. Assign the value 5 to the memory location stored in pNum.  
+   (Hint, there is a special operator used for this)
+
+
+
+5. Create a function called PassByValue that accepts an integer argument.
+
+
+
+6. Inside PassByValue, output a text string indicating the name of the function you are in.
+
+
+
+7. Call PassByValue and pass in num1 as the argument.
+
+
+
+8. Modify the value of num1 inside the PassByValue function and output the new value to the console window.
+
+
+
+9. After the call returns to main(), output the value of num1 to the console window again.
+
+
+
+10. Create a function called PassByRef that accepts a reference variable as an argument
+
+
+
+11. Call PassByRef and send pNum as the argument.
+
+
+
+12. Output a statement indicating the current function name.
+
+
+
+13. Modify the value of pNum, setting it to 50,  and output the value to the console.
+
+
+
+14. After the call returns to main(), output the value of pNum to the console.
+
+
+
+*/
+
+
+
+#include <iostream>
+
+
+
+void PassByValue(int value) {
+    
+
+value = 8;
+    
+
+std::cout << value << std::endl;
+
+
+}
+
+
+
+void PassByRef(int* ref) {
+    
+
+*ref = 50;
+    
+
+std::cout << "PassByRef();" << std::endl;
+}
+
+
+
+/* 
+
+
+
+2. In your main() function, create two variables.  
+One variable needs to be an intrinsic integer variable named num1 
+and 
+the second needs to be a pointer to an int pNum.
+
+3. Assign the value 3 to num
+
+1.
+
+4. Assign the value 5 to the memory location stored in pNum.  
+(Hint, there is a special operator used for this)
+
+*/
+
+int main(int argc, char* argv[]) {
+    
+    int num1;
+    int num2 = 0;
+    int* pNum = &num2;
+    
+    num1 = 3;
+    *pNum = 5;
+    
+    PassByValue(num1);
+    std::cout << num1 << std::endl;
+
+    PassByRef(pNum);
+    std::cout << *pNum << std::endl;
+
+// 15. Call PassByValue and pass in pNum as an argument.
+
+    PassByValue(pNum);
+    
+// 16. Document any error messages for the lab assessment that might occur during your lab.
+
+    return 0;
+}
 
 
 
@@ -278,10 +646,77 @@ Stack is reclaimed when variables go out of scope
 
 
 ========================================================================================================================
-========================================================================================================================
-========================================================================================================================
-========================================================================================================================
-========================================================================================================================
+
+Lab Requirements
+
+x Create a new C++ console application called PointersLab
+
+x In your main() function, create two variables.  One variable needs to be an intrinsic integer variable named num1 and the second needs to be a pointer to an int variable that you will call pNum.  (Note, pNum should NOT be a pointer to num1 which means you need to create another variable for pNum to point to.)
+
+x Assign the value 3 to num1.
+
+x Assign the value 5 to the memory location stored in pNum.  (Hint, there is a special operator used for this)
+
+x Create a function called PassByValue that accepts an integer argument.
+
+x Inside PassByValue, output a text string indicating the name of the function you are in.
+
+x Call PassByValue and pass in num1 as the argument.
+
+x Modify the value of num1 inside the PassByValue function and output the new value to the console window.
+
+x After the call returns to main(), output the value of num1 to the console window again.
+
+x Create a function called PassByRef that accepts a reference variable as an argument
+
+x Call PassByRef and send pNum as the argument.
+
+X Output a statement indicating the current function name.
+
+x Modify the value of pNum, setting it to 50,  and output the value to the console.
+
+x After the call returns to main(), output the value of pNum to the console.
+
+x Call PassByValue and pass in pNum as an argument.
+
+x Document any error messages for the lab assessment that might occur during your lab.
+
+ - cannot convert arg from int* to int
+
+
+x Create a pointer variable to a double, and allocate memory for it using the new keyword.
+
+x Assign a value to the memory location.
+
+x Use the dereference operator, get the value and output it to the console.
+
+x Deallocate the memory for that variable.
+
+x Output the value stored in the memory location for that variable again.
+
+x Document any errors experienced for the lab assessment.
+
+x Create a simple class in your C++ application called Person.
+
+# Give Person member variables for name, age, height, and weight.  Feel free to make these private with public accessors or make them public without accessors.  It is not important for this exercise.
+
+x Create a function in your application called ModifyPerson() that accepts a Person object as an argument.  NOTE: This function should be in the application area and not inside the Person class.
+
+x Instantiate a Person object in your main() method and assign values to the member variables.
+
+Output the values stored in the member variables to the console window
+
+Call the ModifyPerson() function, passing in your Person object you just created.
+
+Inside the ModifyPerson() function, change the value in the name member variable.
+
+Back in main(), output the values stored in the Person object you created.  Did the name change?  It should have if you passed the object correctly to the function.
+
+Close Visual Studio and take the lab assessment.
+
+
+Unhandled exception because of deleted pointer
+
 ========================================================================================================================
 ========================================================================================================================
 ========================================================================================================================
