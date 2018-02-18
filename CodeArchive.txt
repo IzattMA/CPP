@@ -704,13 +704,13 @@ x Create a function in your application called ModifyPerson() that accepts a Per
 
 x Instantiate a Person object in your main() method and assign values to the member variables.
 
-Output the values stored in the member variables to the console window
+x Output the values stored in the member variables to the console window
 
-Call the ModifyPerson() function, passing in your Person object you just created.
+x Call the ModifyPerson() function, passing in your Person object you just created.
 
-Inside the ModifyPerson() function, change the value in the name member variable.
+x Inside the ModifyPerson() function, change the value in the name member variable.
 
-Back in main(), output the values stored in the Person object you created.  Did the name change?  It should have if you passed the object correctly to the function.
+x Back in main(), output the values stored in the Person object you created.  Did the name change?  It should have if you passed the object correctly to the function.
 
 Close Visual Studio and take the lab assessment.
 
@@ -718,12 +718,334 @@ Close Visual Studio and take the lab assessment.
 Unhandled exception because of deleted pointer
 
 ========================================================================================================================
+
+git rm -r 2018_02_14_0830_EdXCPP_DynamicMemoryAllocationClasses
+
+git commit -m "Delete duplicate project that was timestamped AM no PM"
+
 ========================================================================================================================
+
+Math.h
+
+    // Math.h
+    // Header file for the Math class
+
+    #pragma once
+
+    // Math class definition
+    static class Math
+    {
+        public:
+
+        // given base and exponent, calculate value
+        static int Math::pow(int base, int exp);
+
+    };
+
+
+
 ========================================================================================================================
+
+static, it is an indicator that we do not have to instantiate the class to use it in our program. 
+
+In order to call the function from a static class, the function must also be static.
+
+If static, need not instantiate the class
+
+Math math = new Math();
+math.pow(2, 8);
+
+
 ========================================================================================================================
+
+Math.cpp
+
+    #include "stdafx.h"
+    #include "Math.h"
+
+    int Math::pow(int base, int exp)
+    {
+        int result = 1;
+
+        for (int i = 0; i < exp; i++)
+        {
+            result = result * base;
+        }
+
+        return result;
+    }
+
+MathTest.cpp
+
+    // MathTest.cpp : Defines the entry point for the console application.
+    //
+
+    #include "stdafx.h"
+    #include "Math.h"
+    #include <iostream>
+
+    using namespace std;
+
+    int main()
+    {
+        int result = Math::pow(2, 10);
+    
+        cout << result << endl;
+
+        return 0;
+    }
+
+
+scope resolution operator (::).  
+required to call static members of a class.  
 ========================================================================================================================
+
+**Person.h**
+
+    #pragma once
+    
+    #include <string>
+    
+    class Person
+    {
+    
+    private:
+        std::string firstName;
+        std::string lastName;
+    
+        int age;
+    
+    public:
+        Person();
+    
+        Person(std::string fName, std::string lName);
+    
+        Person(std::string fName, std::string lName, int age);
+    
+        ~Person();
+
+        void SayHello();
+    };
+
+**Person.cpp**
+
+
+    #include "stdafx.h"
+    #include "Person.h"
+    #include <iostream>
+    
+    Person::Person()
+    {
+    
+    }
+    
+    Person::Person(std::string fName, std::string lName)
+    {
+        firstName = fName;
+        lastName = lName;
+    }
+    
+    Person::Person(std::string fName, std::string lName, int age)
+    {
+        firstName = fName;
+        lastName = lName;
+    
+        age = age;
+    }
+    
+    
+    Person::~Person()
+    {
+    }
+
+
+ #include "stdafx.h"
+    #include <iostream>
+    #include "Person.h"
+    
+    using namespace std;
+    
+    int main()
+    {
+    
+        // create a Person instance using default constructor
+        Person *pOne = new Person();
+        
+        // Create a Person instance using 2 argument constructor
+        Person *pTwo = new Person("Tom", "Thumb");
+    
+        // Create a Person instance using 3 argument constructor
+        Person *pThree = new Person("Tom", "Thumb", 15);
+    
+    return 0;
+    }
+
+
+
+
+
 ========================================================================================================================
+
+Person *pOne = new Person(); //correct
+
+Person per = new Person();  //incorrect
+
+keyword "new" is used to allocate memory for an object at runtime
+
+keyword "delete" is used to release that memory
+
+Person *pOne = new Person("Gerry", "O\'Brien");
+
+std::cout << pOne->GetLastName() << endl;
+
+object has been dynamically allocated with the new keyword, we must use the arrow selection operator
+
+Person *pOne = new Person("Gerry", "O\'Brien");
+std::cout << pOne->GetLastName() << endl;
+
+
+// delete object, releasing memory
+delete pOne;
+
+
+
 ========================================================================================================================
+Encapsulation
+
+**Person.h**
+
+    #pragma once
+
+    #include <string>
+
+    class Person
+    {
+
+    private:
+        std::string firstName;
+        std::string lastName;
+
+        int age;
+
+    public:
+
+        int count;
+        Person();
+
+        Person(std::string fName, std::string lName);
+
+        Person(std::string fName, std::string lName, int age);
+
+        ~Person();
+
+        void SetFirstName(std::string fName);
+        std::string GetFirstName();
+        
+        void SetLastName(std::string lName);
+        std::string GetLastName();
+
+        void SetAge(int age);
+        int GetAge();
+
+        void SayHello();
+
+};
+
+**Person.cpp**
+
+    #include "stdafx.h"
+    #include "Person.h"
+    #include <iostream>
+
+
+    Person::Person()
+    {
+    
+    }
+
+    Person::Person(std::string fName, std::string lName)
+    {
+        firstName = fName;
+        lastName = lName;
+    }
+
+    Person::Person(std::string fName, std::string lName, int age)
+    {
+        firstName = fName;
+        lastName = lName;
+    
+        age = age;
+    }
+
+
+    Person::~Person()
+    {
+    }
+
+    void Person::SetFirstName(std::string fName)
+    {
+        this->firstName = fName;
+    }
+
+    std::string Person::GetFirstName()
+    {
+        return this->firstName;
+    }
+
+    void Person::SetLastName(std::string lName)
+    {
+        this->lastName = lName;
+    }
+
+    std::string Person::GetLastName()
+    {
+        return this->lastName;
+    }
+
+    void Person::SetAge(int age)
+    {
+        if (age > 0)
+        {
+            this->age = age;
+        }
+        else
+        {
+            std::cout << "Please enter a valid age" << std::endl;
+        }
+    }
+
+    int Person::GetAge()
+    {
+        return this->age;
+    }
+
+    void Person::SayHello()
+    {
+        std::cout << "Hello" << std::endl;
+    }
+
+**Test Program**
+
+    int main()
+    {
+        Person p;
+
+        p.SetFirstName("Gerry");
+        std::cout << p.GetFirstName() << std::endl;
+
+        // this line will output an invalid age message due to the 
+        // validation check in the SetAge() function
+        p.SetAge(-5);
+    
+        // this line will not work because firstName is private
+        p.firstName = "Gerry";
+
+        return 0;
+    }
+
+
+
+
 ========================================================================================================================
 ========================================================================================================================
 ========================================================================================================================
