@@ -1,0 +1,4 @@
+﻿  2018_02_17_EdXCPP_Namespaces.cpp
+c:\d\cpp\2018_02_17_edxcpp_namespaces\2018_02_17_edxcpp_namespaces\math.h(16): warning C4091: 'static ': ignored on left of 'MyMath::math' when no variable is declared
+c:\d\cpp\2018_02_17_edxcpp_namespaces\2018_02_17_edxcpp_namespaces\2018_02_17_edxcpp_namespaces.cpp(20): warning C4244: 'initializing': conversion from 'double' to 'long', possible loss of data
+  2018_02_17_EdXCPP_Namespaces.vcxproj -> C:\D\CPP\2018_02_17_EdXCPP_Namespaces\Debug\2018_02_17_EdXCPP_Namespaces.exe

@@ -1047,8 +1047,174 @@ Encapsulation
 
 
 ========================================================================================================================
+
+
+:: scope resolution operator 
+
+
+using namespace std;
+    
+    int main()
+    {
+        cout << "std version of cout";
+        
+        myNS::cout << "myNS version of cout";
+    }
+
+
+======
+
+namespace Microsoft
+    {
+        namespace Geometry
+        {
+            const double PI = 3.14159;
+    
+            double Area(double radius)
+            {
+                return PI*(r*r);
+            }
+        }
+        
+    }
+
+
+**Example with using statement**
+
+    using namespace Microsoft;
+
+    int main()
+    {
+
+        double radius = 12.5;
+
+        double area = Geometry::Area(radius);
+    }
+
+
+
+** Example with using statement**
+
+    int main()
+    {
+
+        double radius = 12.5;
+
+        double area = Microsoft::Geometry::Area(radius);
+    }
+
+
 ========================================================================================================================
+
+Student stud1;
+
+What would be the value of the member variables of a Student object if you instantation stud1 with the above code?
+
+Values will be initialized to default values for the data types
+
 ========================================================================================================================
+
+// Inheritance.  Vehicle is the base class, Car is the derived class or sub class
+
+class Vehicle
+{
+
+private:
+string Make;
+string Color;
+...
+
+};
+
+
+class Car: Vehicle
+{
+
+// member list includes Make and Color
+// other Car specific members would go here.
+
+};
+
+
+3 types
+ - Public
+ - Private
+ - Protected
+
+=====
+Public inheritance describes how a derived class inherits all the member variables of a base
+class, both private and public, but is only able to directly access the public members of the
+base class.
+
+============
+**Person.h**
+------------
+
+#pragma once
+#include <string>
+	
+class Person
+{
+	private:
+		std::string 
+
+		~Person();
+		void SayHello();
+};
+
+============
+
+=============
+**Student.h**
+-------------
+
+#pragma once
+#include "Person.h"
+
+class Student : public Person
+
+{
+	public:
+		Student();
+		~Student();
+};
+=============
+
+===============
+**Student.cpp**
+---------------
+#include "stdafx.h"
+#include "Student.h"
+
+Student::Student()
+{
+}
+
+Student::~Student()
+{
+}
+
+// this line will cause a compiler error
+firstName = "Tom";
+=============
+
+
+=============
+**Main.cpp**
+-------------
+
+#include "stdafx.h"
+#include "Person.h"
+#include "Student.h"
+int main()
+{
+Student student1;
+// this line will generate a compiler error
+student1.
+=============
+
+
+=====
 ========================================================================================================================
 ========================================================================================================================
 ========================================================================================================================
