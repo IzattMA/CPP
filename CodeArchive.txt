@@ -1215,6 +1215,502 @@ student1.
 
 
 =====
+
+========================================================================================================================
+**Person.h**
+
+    #pragma once
+    
+    #include <string>
+    
+    class Person
+    {
+    
+    private:
+        std::string firstName;
+        std::string lastName;
+    
+    protected:
+    
+        int age;
+    
+    public:
+    
+        
+        Person();
+    
+        Person(std::string fName, std::string lName);
+    
+        Person(std::string fName, std::string lName, int age);
+    
+        ~Person();
+    
+        void SetFirstName(std::string fName);
+        std::string GetFirstName();
+            
+        void SetLastName(std::string lName);
+        std::string GetLastName();
+    
+        void SayHello();
+        
+    };
+ 
+**Person.cpp**
+
+    #include "stdafx.h"
+    #include "Person.h"
+    #include <iostream>
+    
+    
+    Person::Person()
+    {
+    
+    }
+    
+    Person::Person(std::string fName, std::string lName)
+    {
+        firstName = fName;
+        lastName = lName;
+    }
+    
+    Person::Person(std::string fName, std::string lName, int age)
+    {
+        firstName = fName;
+        lastName = lName;
+    
+        age = age;
+    }
+    
+    
+    Person::~Person()
+    {
+        std::cout << "Destructor called as a result of the delete keyword being used" << std::endl;
+    }
+    
+    void Person::SetFirstName(std::string fName)
+    {
+        this->firstName = fName;
+    }
+    
+    std::string Person::GetFirstName()
+    {
+        return this->firstName;
+    }
+    
+    void Person::SetLastName(std::string lName)
+    {
+        this->lastName = lName;
+    }
+    
+    std::string Person::GetLastName()
+    {
+        return this->lastName;
+    }
+    
+    
+    void Person::SayHello()
+    {
+        std::cout << "Hello" << std::endl;
+    }
+
+
+**Student.h**
+
+    #pragma once
+    #include "Person.h"
+    class Student :
+        public Person
+    {
+    public:
+        Student();
+        ~Student();
+    
+        void setAge(int);
+        int getAge();
+        void SayHello();
+    };
+
+**Student.cpp**
+
+    #include "stdafx.h"
+    #include "Student.h"
+    #include <iostream>
+    
+    Student::Student()
+    {
+    }
+    
+    
+    Student::~Student()
+    {
+    }
+    
+    void Student::setAge(int age)
+    {
+        if (age < 5)
+        {
+            std::cout << "Student age needs to at least 5 years old." << std::endl;
+        }
+        else
+        {
+            this->age = age;
+        }
+    }
+
+    int Student::getAge()
+    {
+        return this->age;
+    }
+    
+    void Student::SayHello()
+    {
+        std::cout << "Hey, how's it goin'?" << std::endl;
+    }
+
+
+========================================================================================================================
+**MyClass.h**
+
+    class MyClass
+    {
+        friend void SomeExternalFunction(MyClass & targetObject);
+
+        // Data members and member functions, as required.
+        ...
+    };
+
+**MyClass.cpp**
+
+    #include "MyClass.h"
+
+    void SomeExternalFunction(MyClass & targetObject)
+    {
+        // Access any members on the target object, i.e. public, private, or protected members.
+        ...
+    }
+
+
+========================================================================================================================
+
+**Body.h**
+
+    class Handle;  // Forward reference of the "handle" class, so the compiler knows about it.
+
+    class Body
+    {
+        friend class Handle;
+
+    private:
+        int someData;
+        ...
+    };
+
+**Handle.h**
+
+    #include "Body.h"
+
+    class Handle
+    {
+    private:
+        Body * body;   // The "handle" class typically maintains an internal instance of the "body" class.
+
+    public:
+        Handle();
+        ~Handle();
+
+        void someOperationOnBody();
+        ...
+    };
+
+**Handle.cpp**
+
+    #include "Handle.h"
+
+    Handle::Handle()
+    {
+        body = new Body;  // Create the underlying "body" object.
+    }
+
+    Handle::~Handle()
+    {
+        delete body;      // Delete the underlying "body" object.
+    }
+
+    void Handle::someOperationOnBody()
+    {
+        someData = 42;    // Perform operations on the underlying "body" object.
+    }
+
+Client code just works with the "handle" class - the client code has no knowledge of the underlying "body" class. Consider the following example:
+
+**Main.cpp**
+
+    #include "Handle.h"
+
+    int main()
+    {
+        Handle h;
+        h.someOperationOnBody();
+
+        return 0;
+    }
+
+========================================================================================================================
+
+To define overridable member functions properly in C++, you must prefix the function with the virtual keyword in the base class definition: 
+
+    class Person
+    {
+    private:
+        std::string name;
+        int age;
+
+    public:
+        virtual void display() const;        // Overrideable function.
+        ...
+    };
+
+Note that you don't use the virtual keyword when you implement the function in the source file:
+
+    void Person::display() const
+    {
+        std::cout << name << ", " << age << std::endl;
+    }
+
+
+========================================================================================================================
+
+Overriding virtual functions
+
+
+class Student : public Person
+    {
+    private:
+        std::string course;
+
+    public:
+         virtual void display() const;     // Override function from base class.
+        ...
+    };
+
+
+void Student::display() const
+    {
+        // Call base-class version of display(), to display person-related info.
+        Person::display();
+
+        // Now display the student-related info.
+        std::cout << course << std::endl;
+    }
+
+
+========================================================================================================================
+
+Module 4 > Streams
+
+#include <iostream>
+    …
+    double unitPrice;
+    int quantity;
+    
+    std::cout << "What is the unit price? ";
+    std::cin >> unitPrice;
+    
+    std::cout << "How many do you want? ";
+    std::cin >> quantity;
+    
+    std::cout << "Total cost is " << unitPrice * quantity << std::endl;
+
+
+- cin is an instance of the istream class, and allows you to perform input from the stdin device.
+- cout is an instance of the ostream class, and allows you to perform output to the stdout device. 
+- cerr is another instance of the ostream class, and allows you to perform output to the stderr device. 
+
+
+**Note:** std::endl outputs a newline character to the output stream. Technically speaking, std::endl is a manipulator. We discuss manipulators later in this section.
+
+========================================================================================================================
+
+- typedef basic_istream<char> istream;
+- typedef basic_ostream<char> ostream;
+
+short s;
+    std::cin >> s;
+    
+    int i;
+    std::cin >> i;
+    
+    long l;
+    std::cin >> l;
+    
+    unsigned short us;
+    std::cin >> us;
+    
+    unsigned int ui;
+    std::cin >> ui;
+    
+    unsigned long ul;
+    std::cin >> ul;
+    
+    float f;
+    std::cin >> f;
+    
+    double d;
+    std::cin >> d;
+    
+    long double ld;
+    std::cin >> ld;
+    
+    bool b;
+    std::cin >> b;  // You must enter 0 or 1
+    
+    void * ptr;
+    std::cin >> ptr;  // You can enter an address, e.g. FFFF
+
+std::cout
+        << s   << std::endl
+        << i   << std::endl
+        << l   << std::endl
+        << ui  << std::endl
+        << ul  << std::endl
+        << f   << std::endl
+        << d   << std::endl
+        << ld  << std::endl
+        << b   << std::endl
+        << ptr << std::endl;
+
+========================================================================================================================
+
+#include <iostream>
+    #include <string>
+    …
+    std::string s;
+    cin >> s;
+    std::cout << "Your string is " << s << std::endl;
+
+>> operator inputs a single word, i.e. it stops at the first whitespace character
+
+std::getline() two parameters:
+
+- The input stream, from which you want to get the input
+- The std::string object, into which you want to store the value
+
+
+std::string name;
+    std::cout << "Full name: ";
+    std::getline(std::cin, name);
+    
+    std::string address;
+    std::cout << "Full address: ";
+    std::getline(std::cin, address);
+    
+    std::cout 
+        << name << std::endl
+        << address << std::endl;
+
+
+========================================================================================================================
+
+IO stream operators for custom class types
+operator overloading
+
+
+
+Let's see a complete example. Imagine we want to extend stream I/O to support the following simple point class (note the x and y data members are public here, for simplicity):
+
+    class point
+    {
+    public:
+        int x, y;
+    
+        // Plus other members, as appropriate.
+    };
+
+Given this class, you can define a custom operator>> function as follows:
+
+    std::istream & operator >> (std::istream & is, point & p)
+    {
+        is >> p.x >> p.y;
+        return is;
+    }
+
+
+point p1, p2;
+        std::cout << "Please enter two points: ";
+        std::cin >> p1 >> p2;
+
+
+std::ostream & operator << (std::ostream & os, const point & p)
+    {
+        os << "[" << p.x << "," << p.y << "]";
+        return os;
+    }
+
+std::cout
+    << "Here are your points..." << std::endl
+    << p1 << std::endl
+    << p2 << std::endl;
+
+
+
+
+========================================================================================================================
+Manipulators
+
+<iostream> header file
+
+
+std::cout << "Hello world" << std::endl;
+
+std::cout << "Here is a debug message, the value of x is " << x << std::flush;
+
+
+<iomanip> header file
+
+std::setw
+
+#include <iomanip>// Necessary for parameterized manipulators.
+#include <iostream>   // Necessary for general stream I/O definitions.
+
+std::cout << std::setw(10) << -123.45 << std::endl;
+
+- Setting the field width
+- Justifying a value within a field width
+- Formatting floating-point values
+- Additional miscellaneous formatting techniques
+
+
+The std::setw() manipulator sets the minimum field width for the next value displayed. Here's a simple example, which displays a text value in a minimum field width of 10 characters:
+
+    const char * message = "wibble";
+    std::cout << "[" << std::setw(10) << message << "]" << std::endl;
+
+Note that std::setw() only applies to the next value. The default minimum field width is 0 characters. std::setw() does not cause truncation – if the value exceeds the minimum field width, it will be displayed in full.
+
+This demonstration illustrates the use of std::setw().
+
+
+========================================================================================================================
+
+Output Formatting
+
+Left and Right Justification
+
+std::cout << std::left << std::setw(10) << "hello" << "world" << std::endl;
+std::cout << std::right << std::setw(10) << "hello" << "world" << std::endl;
+
+The + or – sign is left-justified at the start of the field with, and the number itself is right-justified at the end of the field width:
+
+std::cout << std::internal << std::setw(10) << -123.45 << std::endl;
+
+apply to all subsequent outputs
+
+
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
 ========================================================================================================================
 ========================================================================================================================
 ========================================================================================================================
